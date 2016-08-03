@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Game Score</title>
+</head>
+<body>
+    <form action="/scores/{{   round_id }}/games/score/{{  game_id }}/" method="post">
+        {% csrf_token %}
+        #{{ player1.number }} {{ player1.name }}: <input type="number" name="Player{{ player1.number }}"/><br>
+        #{{ player2.number }} {{ player2.name }}: <input type="number" name="Player{{ player2.number }}"/><br>
+        <input type="submit"/>
+    </form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournament</title>
+</head>
+<body>
+    {% if round_list %}
+        <ul>
+            {% for round in round_list %}
+                <li><a href="/scores/{{ round.round_number }}">Round {{ round.round_number }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
