@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Round, Game
+from .forms import ScoreForm
 # Create your views here.
 
 
@@ -19,8 +20,8 @@ def round(request, round_id):
     }
     return render(request, 'scores/round.html', context)
 
-def game(request, round_id, game_id):
-    game = Game.objects.get(pk=game_id)
+def game(request, round_id, board_num):
+    game = Game.objects.get(round_id = round_id, board_num = board_num)
     context = {
         'player1Number': game.player1.number,
         'player2Number': game.player2.number,
@@ -32,13 +33,14 @@ def game(request, round_id, game_id):
     return render(request, 'scores/finishedGame.html', context)
 
 
-def enterScore(request, round_id, game_id):
-    game = Game.objects.get(pk=game_id)
-    context = {
-        'round_id': round_id,
-        'game_id': game_id,
-        'player1': game.player1,
-        'player2': game.player2
-    }
+def enterScore(request, round_id, board_num):
+    game = Game.objects.get(round_id = round_id, board_num = board_num)
+    if request.method == 'POST':
+        form = ScoreForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
 
-    return render(request, 'scores/unfinishedGame.html', context)
+    else:
+        form = ScoreForm()
+
+    return render(request, 'scores/unfinishedGame.html', {'form': form})

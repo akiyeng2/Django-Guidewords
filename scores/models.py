@@ -19,8 +19,9 @@ class Player(models.Model):
     def __str__(self):
         return self.name
 
-
 class Game(models.Model):
+
+    board_num = models.IntegerField()
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     player1 = models.ForeignKey(Player, related_name="player1")
     player2 = models.ForeignKey(Player, related_name="player2")
@@ -29,5 +30,3 @@ class Game(models.Model):
 
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
-
-
