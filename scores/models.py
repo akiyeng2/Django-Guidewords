@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Round(models.Model):
     round_number = models.AutoField(primary_key=True)
 
@@ -17,7 +18,7 @@ class Player(models.Model):
     spread = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return "#" + str(self.number) + " " + self.name
 
 class Game(models.Model):
 

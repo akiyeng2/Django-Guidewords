@@ -38,9 +38,15 @@ def enterScore(request, round_id, board_num):
     if request.method == 'POST':
         form = ScoreForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/thanks/')
-
+            game.player1Score = form.cleaned_data['player1Score']
+            game.player2Score = form.cleaned_data['player2Score']
+            game.save()
     else:
         form = ScoreForm()
-
-    return render(request, 'scores/unfinishedGame.html', {'form': form})
+        form.setup(game.player1, game.player2)
+    context = {
+        'form': form,
+        'round_id': round_id,
+        'game_id': board_num
+    }
+    return render(request, 'scores/unfinishedGame.html', context)
