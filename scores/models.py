@@ -28,6 +28,7 @@ class Game(models.Model):
     player2 = models.ForeignKey(Player, related_name="player2")
     player1Score = models.IntegerField()
     player2Score = models.IntegerField()
+    isEntered = models.BooleanField(default = False)
 
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
