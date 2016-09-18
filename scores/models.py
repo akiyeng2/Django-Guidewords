@@ -1,9 +1,7 @@
 from django.db import models
 
-# Create your models here.
-
-
 class Round(models.Model):
+
     round_number = models.AutoField(primary_key=True)
 
     def __str__(self):
@@ -19,6 +17,7 @@ class Player(models.Model):
 
     def __str__(self):
         return "#" + str(self.number) + " " + self.name
+
 
 class Game(models.Model):
 
