@@ -11,9 +11,9 @@ class Round(models.Model):
 class Player(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length=100)
-    wins = models.DecimalField(decimal_places=1, max_digits=5)
-    losses = models.DecimalField(decimal_places=1, max_digits=5)
-    spread = models.IntegerField()
+    wins = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
+    losses = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
+    spread = models.IntegerField(default = 0)
 
     def __str__(self):
         return "#" + str(self.number) + " " + self.name
@@ -25,8 +25,8 @@ class Game(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     player1 = models.ForeignKey(Player, related_name="player1")
     player2 = models.ForeignKey(Player, related_name="player2")
-    player1Score = models.IntegerField()
-    player2Score = models.IntegerField()
+    player1Score = models.IntegerField(default = 0)
+    player2Score = models.IntegerField(default = 0)
     isEntered = models.BooleanField(default = False)
 
     def __str__(self):
