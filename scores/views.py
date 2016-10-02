@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 from .models import Round, Game, Player
 from .forms import ScoreForm
+from decimal import Decimal
 # Create your views here.
 
 
@@ -27,6 +28,14 @@ def player(request, player_id):
     }
 
     return render(request, 'scores/player.html', context)
+
+def listPlayers(request):
+    players = Player.objects.all()
+    context = {
+        'player_list': players
+    }
+
+    return render(request, 'scores/listPlayers.html', context)
 
 def game(request, round_id, board_num):
     game = Game.objects.get(round_id = round_id, board_num = board_num)
@@ -56,7 +65,7 @@ def handleScore(request, round_id, board_num):
                 p1 = curr_game.player1
                 p2 = curr_game.player2
                 diff = curr_game.player1Score - curr_game.player2Score
-
+                tie = Decimal(0.5)
                 if diff > 0:
                     p1.wins += 1
                     p2.losses += 1
@@ -64,10 +73,10 @@ def handleScore(request, round_id, board_num):
                     p1.losses += 1
                     p2.wins += 1
                 else:
-                    p1.wins += .5
-                    p1.losses += .5
-                    p2.wins += .5
-                    p2.losses += .5
+                    p1.wins += tie
+                    p1.losses += tie
+                    p2.wins += tie
+                    p2.losses += tie
                 p1.spread += diff
                 p2.spread -= diff
                 curr_game.isEntered = True

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Players</title>
+</head>
+<body>
+    {% if player_list %}
+    <ol>
+        {% for player in player_list %}
+            <li>#{{ player.number }} {{ player.name }} {{ player.wins }}-{{ player.losses }} {{ player.spread }}</li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+</body>
+</html>
