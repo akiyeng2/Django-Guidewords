@@ -3,12 +3,15 @@ from django.db import models
 class Round(models.Model):
 
     round_number = models.AutoField(primary_key=True)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Round" + str(self.round_number)
 
 
 class Player(models.Model):
+
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
     number = models.IntegerField()
     name = models.CharField(max_length=100)
     wins = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
@@ -31,3 +34,11 @@ class Game(models.Model):
 
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
+
+class Division(models.Model):
+
+    divID = models.CharField(max_length=100)
+    divNum = models.IntegerField()
+
+    def __str__(self):
+        return "Division" + self.divID
