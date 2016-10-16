@@ -1,9 +1,17 @@
 from django.db import models
 
+class Division(models.Model):
+
+    divID = models.CharField(max_length=100)
+    divNum = models.AutoField(primary_key=True)
+
+    def __str__(self):
+        return "Division" + self.divID
+
 class Round(models.Model):
 
     round_number = models.AutoField(primary_key=True)
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "Round" + str(self.round_number)
@@ -11,7 +19,7 @@ class Round(models.Model):
 
 class Player(models.Model):
 
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE, null=True)
     number = models.IntegerField()
     name = models.CharField(max_length=100)
     wins = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
@@ -34,11 +42,3 @@ class Game(models.Model):
 
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
-
-class Division(models.Model):
-
-    divID = models.CharField(max_length=100)
-    divNum = models.IntegerField()
-
-    def __str__(self):
-        return "Division" + self.divID
