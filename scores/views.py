@@ -13,6 +13,7 @@ def index(request):
     return render(request, 'scores/index.html', context)
 
 
+
 def round(request, round_id):
     games = Round.objects.get(pk=round_id).game_set.all()
     context = {
