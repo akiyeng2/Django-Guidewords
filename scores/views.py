@@ -29,7 +29,8 @@ def round(request, divNum, round_id):
 
     context = {
         'game_list': games,
-        'round_number': round_id
+        'round_number': round_id,
+        'division_number': divNum
     }
     return render(request, 'scores/round.html', context)
 
@@ -51,8 +52,7 @@ def listPlayers(request):
 
 
 def game(request, round_id, board_num):
-    rounds_per_division = Round.objects.count() / Division.objects.count()
-    game = Game.objects.get(round_id = (divNum - 1) * rounds_per_division + round_id, board_num = board_num)
+    game = Game.objects.get(round_id = round_id, board_num = board_num)
     context = {
         'player1Number': game.player1.number,
         'player2Number': game.player2.number,
