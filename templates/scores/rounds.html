@@ -5,10 +5,10 @@
     <title>Tournament</title>
 </head>
 <body>
-    {% if division_list %}
+    {% if round_list %}
         <ul>
-            {% for division in division_list %}
-                <li><a href="division/{{ division.divID }}">Division {{ division.divID }}</a></li>
+            {% for round in round_list %}
+                <li><a href="/scores/{{ round.round_number }}">Round {{ round.round_number }}</a></li>
             {% endfor %}
         </ul>
     {% endif %}

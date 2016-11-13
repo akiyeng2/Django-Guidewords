@@ -8,7 +8,7 @@
     {% if game_list %}
     <ul>
         {% for game in game_list %}
-            <li><a href="/scores/{{ round_number }}/games/score/{{ game.board_num }}">Game {{ game.board_num }}</a></li>
+            <li><a href="games/score/{{ game.board_num }}">Game {{ game.board_num }}</a></li>
         {% endfor %}
     </ul>
     {% endif %}

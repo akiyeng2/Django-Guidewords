@@ -5,7 +5,7 @@
     <title>Enter Game Score</title>
 </head>
 <body>
-    <form action="/scores/{{ round_id }}/games/score/{{ game_id }}/" method="post">
+    <form action="./" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value = "Submit"/>

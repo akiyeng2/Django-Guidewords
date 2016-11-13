@@ -1,21 +1,32 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Round, Game, Player
+from .models import Round, Game, Player, Division
 from .forms import ScoreForm
 from decimal import Decimal
 # Create your views here.
 
 
 def index(request):
-    rounds = Round.objects.all()
-    context = {'round_list': rounds}
+    divisions = Division.objects.all()
+    context = {'division_list': divisions}
     return render(request, 'scores/index.html', context)
 
 
+def division(request, divNum):
+    rounds = Division.objects.get(pk=divNum).round_set.all()
+    context = {
+        'round_list': rounds,
+        'division_id': divNum
+    }
 
-def round(request, round_id):
-    games = Round.objects.get(pk=round_id).game_set.all()
+    return render(request, 'scores/division.html', context)
+
+
+def round(request, divNum, round_id):
+
+    games = Round.objects.get(division__pk=divNum, round_number=round_id).game_set.all()
+
     context = {
         'game_list': games,
         'round_number': round_id
@@ -38,8 +49,10 @@ def listPlayers(request):
 
     return render(request, 'scores/listPlayers.html', context)
 
+
 def game(request, round_id, board_num):
-    game = Game.objects.get(round_id = round_id, board_num = board_num)
+    rounds_per_division = Round.objects.count() / Division.objects.count()
+    game = Game.objects.get(round_id = (divNum - 1) * rounds_per_division + round_id, board_num = board_num)
     context = {
         'player1Number': game.player1.number,
         'player2Number': game.player2.number,
@@ -51,11 +64,11 @@ def game(request, round_id, board_num):
     return render(request, 'scores/finishedGame.html', context)
 
 
-def handleScore(request, round_id, board_num):
+def handleScore(request, divNum, round_id, board_num):
     curr_game = Game.objects.get(round_id = round_id, board_num = board_num)
 
     if curr_game.isEntered:
-        return game(request, round_id, board_num)
+        return game(request , round_id, board_num)
 
     else:
         if request.method == 'POST':

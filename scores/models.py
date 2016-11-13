@@ -10,7 +10,8 @@ class Division(models.Model):
 
 class Round(models.Model):
 
-    round_number = models.AutoField(primary_key=True)
+    round_number = models.IntegerField(default=1)
+
     division = models.ForeignKey(Division, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

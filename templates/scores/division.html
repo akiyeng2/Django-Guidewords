@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Division {{ division_id }}</title>
+</head>
+<body>
+    {% if round_list %}
+    <ul>
+        {% for round in round_list %}
+            <li><a href="round/{{ round.round_number }}">Round {{ round.round_number }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
