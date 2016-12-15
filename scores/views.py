@@ -13,19 +13,19 @@ def index(request):
     return render(request, 'scores/index.html', context)
 
 
-def division(request, divNum):
-    rounds = Division.objects.get(pk=divNum).round_set.all()
+def division(request, div_num):
+    rounds = Division.objects.get(divID=div_num).round_set.all()
     context = {
         'round_list': rounds,
-        'division_id': divNum
+        'division_id': div_num
     }
 
     return render(request, 'scores/division.html', context)
 
 
-def round(request, divNum, round_id):
+def round(request, div_num, round_id):
 
-    games = Round.objects.get(division__pk=divNum, round_number=round_id).game_set.all()
+    games = Round.objects.get(division__divID=div_num, round_number=round_id).game_set.all()
 
     context = {
         'game_list': games,
@@ -50,9 +50,8 @@ def listPlayers(request):
     return render(request, 'scores/listPlayers.html', context)
 
 
-def game(request, round_id, board_num):
-    rounds_per_division = Round.objects.count() / Division.objects.count()
-    game = Game.objects.get(round_id = (divNum - 1) * rounds_per_division + round_id, board_num = board_num)
+def game(request, round_id, board_num, div_num):
+    game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num = board_num)
     context = {
         'player1Number': game.player1.number,
         'player2Number': game.player2.number,
@@ -64,11 +63,11 @@ def game(request, round_id, board_num):
     return render(request, 'scores/finishedGame.html', context)
 
 
-def handleScore(request, divNum, round_id, board_num):
-    curr_game = Game.objects.get(round_id = round_id, board_num = board_num)
+def handleScore(request, div_num, round_id, board_num):
+    curr_game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num = board_num)
 
     if curr_game.isEntered:
-        return game(request , round_id, board_num)
+        return game(request, div_num, round_id, board_num)
 
     else:
         if request.method == 'POST':
@@ -98,7 +97,7 @@ def handleScore(request, divNum, round_id, board_num):
                 p2.save()
                 curr_game.save()
 
-            return game(request, round_id, board_num)
+            return game(request, div_num, round_id, board_num)
         else:
             form = ScoreForm()
             form.setup(curr_game.player1, curr_game.player2)
