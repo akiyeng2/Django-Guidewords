@@ -8,6 +8,7 @@ class Division(models.Model):
     def __str__(self):
         return "Division" + self.divID
 
+
 class Round(models.Model):
 
     round_number = models.IntegerField(default=1)
@@ -16,6 +17,9 @@ class Round(models.Model):
 
     def __str__(self):
         return "Round" + str(self.round_number)
+
+    class Meta:
+        unique_together = ("round_number", "division")
 
 
 class Player(models.Model):
@@ -30,6 +34,9 @@ class Player(models.Model):
     def __str__(self):
         return "#" + str(self.number) + " " + self.name
 
+    class Meta:
+        unique_together = ("number", "division")
+
 
 class Game(models.Model):
 
@@ -37,9 +44,12 @@ class Game(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE)
     player1 = models.ForeignKey(Player, related_name="player1")
     player2 = models.ForeignKey(Player, related_name="player2")
-    player1Score = models.IntegerField(default = 0)
-    player2Score = models.IntegerField(default = 0)
-    isEntered = models.BooleanField(default = False)
+    player1Score = models.IntegerField(default=0)
+    player2Score = models.IntegerField(default=0)
+    isEntered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
+
+    class Meta:
+        unique_together = ("board_num", "round")

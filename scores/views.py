@@ -30,9 +30,10 @@ def round(request, div_num, round_id):
     context = {
         'game_list': games,
         'round_number': round_id,
-        'division_number': divNum
+        'division_number': div_num
     }
     return render(request, 'scores/round.html', context)
+
 
 def player(request, player_id):
     player = Player.objects.get(pk=player_id)
@@ -41,6 +42,7 @@ def player(request, player_id):
     }
 
     return render(request, 'scores/player.html', context)
+
 
 def listPlayers(request):
     players = Player.objects.all()
@@ -51,7 +53,7 @@ def listPlayers(request):
     return render(request, 'scores/listPlayers.html', context)
 
 
-def game(request, round_id, board_num, div_num):
+def game(request, div_num, round_id, board_num):
     game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num = board_num)
 
     context = {
@@ -66,9 +68,11 @@ def game(request, round_id, board_num, div_num):
 
 
 def handleScore(request, div_num, round_id, board_num):
-    curr_game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num = board_num)
+    curr_game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num=board_num)
 
     if curr_game.isEntered:
+        print(div_num, round_id, board_num)
+
         return game(request, div_num, round_id, board_num)
 
     else:
