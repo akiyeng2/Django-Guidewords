@@ -14,7 +14,7 @@ def index(request):
 
 
 def division(request, div_num):
-    rounds = Division.objects.get(divID=div_num).round_set.all()
+    rounds = Division.objects.get(divID=div_num).tourneyround_set.all()
     context = {
         'round_list': rounds,
         'division_id': div_num
