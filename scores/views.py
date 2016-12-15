@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Round, Game, Player, Division
+from .models import TourneyRound, Game, Player, Division
 from .forms import ScoreForm
 from decimal import Decimal
 # Create your views here.
@@ -23,9 +23,9 @@ def division(request, div_num):
     return render(request, 'scores/division.html', context)
 
 
-def round(request, div_num, round_id):
+def tourney_round(request, div_num, round_id):
 
-    games = Round.objects.get(division__divID=div_num, round_number=round_id).game_set.all()
+    games = TourneyRound.objects.get(division__divID=div_num, round_number=round_id).game_set.all()
 
     context = {
         'game_list': games,
@@ -54,7 +54,7 @@ def listPlayers(request):
 
 
 def game(request, div_num, round_id, board_num):
-    game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num = board_num)
+    game = Game.objects.get(tourney_round__round_number=round_id, tourney_round__division__divID=div_num, board_num = board_num)
 
     context = {
         'player1Number': game.player1.number,
@@ -68,7 +68,7 @@ def game(request, div_num, round_id, board_num):
 
 
 def handleScore(request, div_num, round_id, board_num):
-    curr_game = Game.objects.get(round__round_number=round_id, round__division__divID=div_num, board_num=board_num)
+    curr_game = Game.objects.get(tourney_round__round_number=round_id, tourney_round__division__divID=div_num, board_num=board_num)
 
     if curr_game.isEntered:
         print(div_num, round_id, board_num)

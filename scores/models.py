@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 class Division(models.Model):
 
@@ -9,7 +11,7 @@ class Division(models.Model):
         return "Division" + self.divID
 
 
-class Round(models.Model):
+class TourneyRound(models.Model):
 
     round_number = models.IntegerField(default=1)
 
@@ -41,15 +43,26 @@ class Player(models.Model):
 class Game(models.Model):
 
     board_num = models.IntegerField()
-    round = models.ForeignKey(Round, on_delete=models.CASCADE)
+    tourney_round = models.ForeignKey(TourneyRound, on_delete=models.CASCADE)
     player1 = models.ForeignKey(Player, related_name="player1")
     player2 = models.ForeignKey(Player, related_name="player2")
     player1Score = models.IntegerField(default=0)
     player2Score = models.IntegerField(default=0)
     isEntered = models.BooleanField(default=False)
 
+
+    def clean(self):
+        games = self.tourney_round.game_set.all()
+        for other_game in games:
+            if other_game.player1.number in (self.player1.number, self.player2.number) or other_game.player2.number in (self.player1.number, self.player2.number):
+                raise ValidationError(_('One player in two games'), code = 'duplicate')
+        if self.player1.number == self.player2.number:
+            raise ValidationError(_('Player is playing himself'), code = 'sameplayer')
+        if (self.tourney_round.division.divID != self.player1.division.divID) or (self.tourney_round.division.divID != self.player2.division.divID):
+            raise ValidationError(_('Player in wrong division'), code = 'wrongdivision')
+
     def __str__(self):
         return self.player1.name + " vs. " + self.player2.name
 
     class Meta:
-        unique_together = (("board_num", "round"), ("player1", "round"), ("player2", "round"))
+        unique_together = (("board_num", "tourney_round"), ("player1", "tourney_round"), ("player2", "tourney_round"))
