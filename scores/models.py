@@ -52,4 +52,4 @@ class Game(models.Model):
         return self.player1.name + " vs. " + self.player2.name
 
     class Meta:
-        unique_together = ("board_num", "round")
+        unique_together = (("board_num", "round"), ("player1", "round"), ("player2", "round"))
