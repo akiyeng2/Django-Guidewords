@@ -36,7 +36,7 @@ def tourney_round(request, div_num, round_id):
 
 
 def player(request, div_num, player_id):
-    player = Player.objects.get(division__divID=div_num, pk=player_id)
+    player = Player.objects.get(division__divID=div_num, number=player_id)
     context = {
         'player': player
     }
@@ -46,8 +46,7 @@ def player(request, div_num, player_id):
 
 def listPlayers(request, div_num):
     print(div_num)
-    players = Player.objects.filter(division__divID = div_num)
-    #players = Division.objects.get(divID=div_num).player_set.all()
+    players = Player.objects.filter(division__divID=div_num)
     print(players)
     context = {
         'player_list': players
