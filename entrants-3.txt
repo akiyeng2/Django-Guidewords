@@ -1,0 +1,9 @@
+South, Joe       1759;
+Stock, Daniel    1726;
+Shapiro, Daniel  1403;
+Scouloukas, Dean 1185;
+
+Stock, Joyce     1138;
+Daniel, Eric     1113;
+Huber, Cecilia   1038;
+Konicki, Walter  1011;
