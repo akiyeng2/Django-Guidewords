@@ -32,6 +32,8 @@ class Player(models.Model):
     wins = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
     losses = models.DecimalField(decimal_places=1, max_digits=5, default = 0)
     spread = models.IntegerField(default = 0)
+    initial_rating = models.IntegerField(default=1000)
+
 
     def __str__(self):
         return "#" + str(self.number) + " " + self.name
@@ -49,7 +51,6 @@ class Game(models.Model):
     player1Score = models.IntegerField(default=0)
     player2Score = models.IntegerField(default=0)
     isEntered = models.BooleanField(default=False)
-
 
     def clean(self):
         games = self.tourney_round.game_set.all()
