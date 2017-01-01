@@ -14,7 +14,7 @@ def index(request):
 
 
 def division(request, div_num):
-    rounds = Division.objects.get(divID=div_num).round_set.all()
+    rounds = Division.objects.get(divID=div_num).tourneyround_set.all()
     context = {
         'round_list': rounds,
         'division_id': div_num
@@ -35,8 +35,8 @@ def tourney_round(request, div_num, round_id):
     return render(request, 'scores/round.html', context)
 
 
-def player(request, player_id):
-    player = Player.objects.get(pk=player_id)
+def player(request, div_num, player_id):
+    player = Player.objects.get(division__divID=div_num, pk=player_id)
     context = {
         'player': player
     }
@@ -44,8 +44,11 @@ def player(request, player_id):
     return render(request, 'scores/player.html', context)
 
 
-def listPlayers(request):
-    players = Player.objects.all()
+def listPlayers(request, div_num):
+    print(div_num)
+    players = Player.objects.filter(division__divID = div_num)
+    #players = Division.objects.get(divID=div_num).player_set.all()
+    print(players)
     context = {
         'player_list': players
     }
