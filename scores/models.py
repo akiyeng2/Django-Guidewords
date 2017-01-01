@@ -58,7 +58,7 @@ class Game(models.Model):
                 raise ValidationError(_('One player in two games'), code = 'duplicate')
         if self.player1.number == self.player2.number:
             raise ValidationError(_('Player is playing himself'), code = 'sameplayer')
-        if (self.tourney_round.division.divID != self.player1.division.divID) or (self.tourney_round.division.divID != self.player2.division.divID):
+        if self.tourney_round.division.div_num != self.player1.division.div_num:
             raise ValidationError(_('Player in wrong division'), code = 'wrongdivision')
 
     def __str__(self):
