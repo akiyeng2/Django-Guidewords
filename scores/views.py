@@ -15,8 +15,11 @@ def index(request):
 
 def division(request, div_num):
     rounds = Division.objects.get(divID=div_num).tourneyround_set.all()
+    players = Player.objects.filter(division__divID=div_num).order_by('-wins', '-spread')
+
     context = {
         'round_list': rounds,
+        'player_list': players,
         'division_id': div_num
     }
 
@@ -59,6 +62,8 @@ def game(request, div_num, round_id, board_num):
     game = Game.objects.get(tourney_round__round_number=round_id, tourney_round__division__divID=div_num, board_num = board_num)
 
     context = {
+        'division_number': div_num,
+        'round_number': round_id,
         'player1Number': game.player1.number,
         'player2Number': game.player2.number,
         'player1Name': game.player1.name,
@@ -111,7 +116,8 @@ def handleScore(request, div_num, round_id, board_num):
             form.setup(curr_game.player1, curr_game.player2)
             context = {
                 'form': form,
-                'round_id': round_id,
+                'division_number': div_num,
+                'round_number': round_id,
                 'game_id': board_num
             }
             return render(request, 'scores/unfinishedGame.html', context)

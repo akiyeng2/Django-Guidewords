@@ -3,14 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Division {{ division_id }}</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        section {
+
+            width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #players {
+
+            float: left;
+            width: 50%;
+        }
+
+        #rounds {
+            float: right;
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
-    {% if round_list %}
-    <ul>
-        {% for round in round_list %}
-            <li><a href="round/{{ round.round_number }}">Round {{ round.round_number }}</a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <h1>Results for Division {{ division_id }}</h1>
+    <section>
+        <div id="rounds">
+            <h2>Rounds</h2>
+            {% if round_list %}
+                <ul>
+                    {% for round in round_list %}
+                        <li><a href="round/{{ round.round_number }}">Round {{ round.round_number }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div id="players">
+            <h2>Players</h2>
+            {% if player_list %}
+            <table>
+                <tr>
+                    <th>Player Name</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Spread</th>
+                </tr>
+            {% for player in player_list %}
+                <tr>
+                    <td>#{{ player.number }} {{ player.name }}</td>
+                    <td align="right">{{ player.wins }}</td>
+                    <td align="right">{{ player.losses }}</td>
+                    <td align="right">{{ player.spread }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+        </div>
+    </section>
+
 </body>
 </html>

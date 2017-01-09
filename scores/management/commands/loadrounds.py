@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from scores.models import Game, Player, TourneyRound, Division
 import re
+
+
 class Command(BaseCommand):
     help = "Loads tournament rounds and players"
 

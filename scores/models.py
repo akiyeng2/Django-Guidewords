@@ -34,7 +34,6 @@ class Player(models.Model):
     spread = models.IntegerField(default = 0)
     initial_rating = models.IntegerField(default=1000)
 
-
     def __str__(self):
         return "#" + str(self.number) + " " + self.name
 

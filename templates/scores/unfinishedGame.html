@@ -5,6 +5,7 @@
     <title>Enter Game Score</title>
 </head>
 <body>
+    <h3>Entering score for Division {{ division_number }}, <a href="../../../">Round {{ round_number }},</a></h3>
     <form action="./" method="post">
         {% csrf_token %}
         {{ form }}
