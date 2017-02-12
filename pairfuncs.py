@@ -1,5 +1,3 @@
-
-
 #This only works if the number of players is even. We have to figure out whether bye handling is done by something else.
 def rr_pairings(players):
     rounds = []
@@ -15,5 +13,9 @@ def rr_pairings(players):
         top_out = [top_out[-1]] + top_out[:-1]
     return rounds
 
+#WARNING: No Gibsons in here! Again, assumes byes have been taken care of.
+def koth_pairings(players):
+    return [(players[2*i], players[2*i+1]) for i in range(len(players)//2)]
 
-print(rr_pairings(["A", "B", "C", "D", "E", "F", "G", "H"]))
+print(rr_pairings(["A", "B", "C", "D", "E", "F"]))
+print(koth_pairings(["A", "B", "C", "D", "E", "F"]))
