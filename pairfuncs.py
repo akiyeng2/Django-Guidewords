@@ -19,9 +19,6 @@ def rr_pairings(players):
 def koth_pairings(players):
     return [(players[2*i], players[2*i+1]) for i in range(len(players)//2)]
 
-#This is a version of Swiss pairings with repeats OK. Currently, it assumes that the list of players is ordered by standing, and that each player is a tuple, with name as the first element and "score" (win = 1 pt., tie = 1/2 pt., loss = 0 pt.) as the second element.
-
-#This is in progress!
 #This Swiss algorithm copies the one from http://stackoverflow.com/questions/28629235/swiss-tournament-pairing-algorithm . It takes two parameters: players (a list of players, listed in order from highest to lowest in ranking) and opp_dict (each key is a player, and the corresponding value is the list of that player's opponents so far).
 def swiss_pairings(players, opp_dict):
     player_copy = deepcopy(players)
